@@ -1,74 +1,69 @@
-# 📋 B1-T3 — Kanban para Sustentação do Sistema de Agendamento de Barbearia
+# B1-T3 — Kanban para Sustentação do Sistema de Agendamento de Barbearia
 
-**Quadro Trello:** [lywxrGlD/kambam-trabalho](https://trello.com/b/lywxrGlD/kambam-trabalho)
-
----
-
-## 🎯 Contexto
-
-O trabalho parte do backlog do B1-T2 (sistema de agendamento de barbearia), agora **já em produção**. O time representado é o **time de sustentação**: a demanda vem de incidentes, chamados de suporte e melhorias motivadas pelo uso real — não de funcionalidades planejadas em backlog.
+**Trello:** https://trello.com/b/lywxrGlD/kambam-trabalho
 
 ---
 
-## 🗂️ O Quadro
+## Contexto
 
-| Coluna | Significado |
-|---|---|
-| **Fila de Atendimento** | Itens triados, aguardando capacidade do time |
-| **Em Atendimento** | Itens sendo tratados agora (sujeitos ao WIP) |
-| **Resolvido** | Resultado confirmado com quem solicitou |
+O trabalho utiliza como base o backlog do B1-T2 (sistema de agendamento de barbearia), já em produção. O time representado é o time de sustentação responsável pelo sistema: a demanda vem de incidentes, chamados de suporte e melhorias técnicas motivadas pelo uso real.
 
-> **Ponto de compromisso:** quando o item sai da fila e entra em Em Atendimento — o time assume a responsabilidade.
-> **Ponto de entrega:** quando o item chega a Resolvido — não basta estar corrigido tecnicamente, precisa estar **confirmado com o solicitante**.
+## O quadro
 
----
+O fluxo foi organizado em seis colunas: **Entrada**, **Análise**, **Em Desenvolvimento**, **Review**, **Finalizado** e **Reprovado**.
 
-## 🏷️ Tipos de Trabalho
+- **Entrada** — o que acabou de chegar, ainda sem triagem.
+- **Análise** — o time avalia se aceita, recusa ou pede mais informação antes de comprometer capacidade.
+- **Em Desenvolvimento** — implementação ativa, sujeita ao limite de WIP.
+- **Review** — validação por outro integrante antes de considerar resolvido.
+- **Finalizado** — resultado confirmado com quem solicitou.
+- **Reprovado** — log de itens recusados na análise; fica arquivado, fora do fluxo ativo.
+
+O ponto de compromisso ocorre quando um item sai da Análise e é puxado para Em Desenvolvimento — a partir daí o time assume a responsabilidade por resolvê-lo. O ponto de entrega ocorre quando o item chega a Finalizado, com o resultado confirmado.
+
+## Tipos de trabalho e classes de serviço
+
+Cada cartão indica seu tipo:
 
 | Sigla | Tipo | Exemplo |
-|:---:|---|---|
+|---|---|---|
 | **I** | Incidente | Conflito de horário duplicado em produção |
-| **S** | Solicitação/Suporte | Cliente pergunta sobre escolha de barbeiro |
+| **S** | Solicitação/Chamado de suporte | Cliente pergunta sobre escolha de barbeiro |
 | **M** | Melhoria técnica | Otimizar carregamento da agenda |
 | **F** | Funcionalidade | Lembrete automático via WhatsApp |
 
-## ⚡ Classes de Serviço
+Além do tipo, cada cartão traz uma **classe de serviço**:
 
 | Classe | Significado | Exemplo |
 |---|---|---|
 | **Padrão** | Fluxo normal | Maioria dos chamados |
-| **Expedite** | Impacto alto e imediato | Falha na API do WhatsApp |
+| **Prioridade** | Impacto alto e imediato | Falha na API do WhatsApp |
 | **Data fixa** | Valor ligado a uma data | Relatório mensal ao dono |
 | **Intangível** | Benefício do atraso pouco visível | Escolha de barbeiro preferido |
 
-> Classificar por tipo e classe evita tratar tudo como "urgente" sem critério — e deixa claro o que deve furar a fila quando necessário.
+A classe de serviço aparece diretamente no título do cartão quando foge do padrão — por exemplo, "(Data fixa)" ou "(Intangível)" — para não depender de abrir a descrição pra saber que um item é exceção.
 
----
+## Limite de WIP
 
-## 🔢 Limite de WIP
+O limite definido para a coluna Em Desenvolvimento é de **seis itens simultâneos**, considerando o tamanho do time. É um valor de partida — não definitivo — que será revisado com base em evidência da simulação e de rodadas futuras.
 
-**6 itens simultâneos** em Em Atendimento — valor de partida, a ser revisado com mais rodadas de dados.
+## Políticas explícitas
 
----
+- **Triagem:** todo item passa por Análise antes de qualquer compromisso; a saída é aceitar (segue para Em Desenvolvimento) ou recusar (vai para Reprovado, com motivo registrado).
+- **Puxada:** só se puxa um novo item para Em Desenvolvimento quando há espaço no limite de WIP — exceto Prioridade, que pode furar a fila com justificativa.
+- **Bloqueio:** item bloqueado é marcado no título e na descrição, com motivo, tempo e próxima ação; continua contando no WIP até ser resolvido.
+- **Dependência:** item que depende de outro fica retido até o item de origem ser resolvido ou desbloqueado.
+- **Revisão:** todo item passa por Review antes de Finalizado, com validação de outro integrante.
+- **Resolução:** item só é considerado Finalizado quando confirmado com quem solicitou, não apenas corrigido tecnicamente.
 
-## 📜 Políticas Explícitas
+## Cartões
 
-- **Triagem:** item só sai da fila com motivo e resultado esperado claros
-- **Puxada:** só se assume item novo se houver vaga no WIP — exceto Expedite justificado
-- **Bloqueio:** marcado com motivo, tempo e próxima ação; continua ocupando vaga
-- **Dependência:** fica na fila até o item de origem ser resolvido
-- **Resolução:** só conta quando confirmado com o solicitante, não só corrigido
+Cada cartão traz Tipo, Classe de serviço e Origem (cliente, barbeiro ou dono da barbearia) logo no início da descrição, seguidos do contexto do chamado e do critério de aceitação. Esse critério também aparece como checklist no próprio cartão, permitindo acompanhar visualmente o que falta para considerar o item pronto. Cartões de classe Data fixa têm data de vencimento definida no Trello.
 
----
+## Simulação do fluxo
 
-## 🔥 Simulação — O Evento Real
+Durante o uso do sistema, ocorreu um erro real de integração com a API do WhatsApp, que interrompeu o envio de confirmações e lembretes. Esse incidente foi classificado como Prioridade — a classe de serviço usada para itens cujo atraso tem impacto alto e imediato — e passou a ser tratado antes dos demais itens em Em Desenvolvimento, mostrando na prática como o quadro reage a um evento urgente.
 
-Durante o uso do sistema, ocorreu uma **falha real na API do WhatsApp**, interrompendo confirmações e lembretes. O item foi reclassificado como **Expedite** pelo impacto imediato sobre os clientes, passando à frente dos demais em atendimento — mostrando na prática como o quadro reage a uma urgência real.
+## Gargalo observado
 
-## 🚧 Gargalo Observado
-
-O incidente do WhatsApp ocupou uma vaga do WIP **sem previsão de solução**, por depender de um provedor externo. Isso reduziu a capacidade do time e travou em cascata o pedido de **lembrete automático via WhatsApp**, que depende diretamente dessa integração.
-
----
-
-> 💡 **Princípio central demonstrado:** o Kanban torna visível *onde* o trabalho trava — permitindo agir antes que o problema se espalhe pelo fluxo.
+O gargalo apareceu na coluna Em Desenvolvimento: o incidente da API do WhatsApp ocupou uma vaga do limite de WIP sem previsão de solução, por depender de um provedor externo. Isso reduziu a capacidade do time para os demais chamados e travou, em cascata, o pedido de lembrete automático via WhatsApp, que depende diretamente dessa integração e por isso permanece retido em Entrada.
